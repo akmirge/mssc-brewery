@@ -11,7 +11,7 @@ import java.util.UUID;
 public class BeerServiceImpl implements BeerService {
     @Override
     public BeerDto getBeerById(UUID id) {
-        log.debug("Get the Beer with id: " + id);
+        log.info("Get the Beer with id: " + id);
         return BeerDto.builder().id(UUID.randomUUID())
                 .beerName("Galaxy Cat")
                 .beerStyle("Pale Ale")
@@ -20,18 +20,18 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public BeerDto saveNewBeer(BeerDto beer) {
-        log.debug("Creating a new Beer");
+        log.info("Creating a new Beer");
         return BeerDto.builder().id(UUID.randomUUID()).build();
     }
 
     @Override
     public void updateBeer(UUID id, BeerDto beer) {
         //TODO:: Need to implement
-        log.debug("Updating Beer with Id: " + id);
+        log.info("Updating Beer with Id: " + id);
     }
 
     @Override
     public void deleteBeer(UUID id) {
-        log.debug("Deleting Beer by Id: " + id);
+        log.info("Deleting Beer by Id: " + id);
     }
 }
