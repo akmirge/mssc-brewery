@@ -1,7 +1,8 @@
-package guru.springframework.msscbrewery.web.controller;
+package guru.springframework.msscbrewery.web.controller.v2;
 
-import guru.springframework.msscbrewery.services.BeerService;
+import guru.springframework.msscbrewery.services.v2.BeerServiceV2;
 import guru.springframework.msscbrewery.web.model.BeerDto;
+import guru.springframework.msscbrewery.web.model.v2.BeerDtoV2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,29 +10,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Deprecated
-@RequestMapping("/api/v1/beer")
+@RequestMapping("/api/v2/beer")
 @RestController
-public class BeerController {
+public class BeerControllerV2 {
+    private final BeerServiceV2 beerService;
 
-    private final BeerService beerService;
-
-    public BeerController(BeerService beerService) {
+    public BeerControllerV2(BeerServiceV2 beerService) {
         this.beerService = beerService;
     }
 
     @GetMapping("/{beerId}")
-    public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID id) {
+    public ResponseEntity<BeerDtoV2> getBeer(@PathVariable("beerId") UUID id) {
         return new ResponseEntity<>(this.beerService.getBeerById(id), HttpStatus.OK);
     }
 
     @PostMapping // This automatically handles Create new Beer
-    public ResponseEntity<BeerDto> handlePost(@RequestBody BeerDto beer) {
-        BeerDto savedBeer = this.beerService.saveNewBeer(beer);
+    public ResponseEntity<BeerDtoV2> handlePost(@RequestBody BeerDto beer) {
+        BeerDtoV2 savedBeer = this.beerService.saveNewBeer(beer);
         HttpHeaders headers = new HttpHeaders();
         //todo add hostname to Url
         headers.add("Location",
-                "/api/v1/beer/" + savedBeer.getId().toString());
+                "/api/v2/beer/" + savedBeer.getId().toString());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
@@ -46,6 +45,5 @@ public class BeerController {
     public void deleteBeer(@PathVariable("beerId") UUID id) {
         this.beerService.deleteBeer(id);
     }
-
 
 }
